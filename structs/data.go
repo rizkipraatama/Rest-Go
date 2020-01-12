@@ -17,3 +17,9 @@ type Register struct {
 	Email        string
 	Phone_Number string
 }
+
+type Login struct {
+	gorm.Model
+	Username string
+	Password string
+}
