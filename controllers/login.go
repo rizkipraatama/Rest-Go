@@ -16,14 +16,14 @@ func (idb *InDB) Login(c *gin.Context) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")
 
-	err := idb.DB.Where(map[string]interface{}{"username": username, "password": password}).First(&Login).Error
-	if err == nil {
+	notFound := idb.DB.Where("Username = ? AND Password = ?", username, password).Find(&Login).RecordNotFound()
+	if !notFound {
 		result = gin.H{
 			"result": Login,
 		}
 	} else {
 		result = gin.H{
-			"result": "Username/Password Doesn't Match",
+			"result": "Not Found",
 		}
 	}
 	c.JSON(http.StatusOK, result)
